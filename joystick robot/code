@@ -1,0 +1,47 @@
+char t;
+const int rl=2,r2=3,11=4,12=5;
+
+void setup() {
+Serial.begin(9600);
+pinMode(rl,OUTPUT);
+pinMode(r2,OUTPUT);
+pinMode(I1,OUTPUT);
+pinMode(I2,OUTPUT);
+}
+
+void loop() {
+if(Serial.available()){
+t = Serial.read();
+}
+
+if(t == 'F'){
+digitalWrite(rl,HIGH);
+digitalWrite(r2,LOW);
+digitalWrite(I1,HIGH);
+digitalWrite(I2,LOW);
+}
+
+else if(t == 'B') {
+digitalWrite(rl,LOW);
+digitalWrite(r2,HIGH);
+digitalWrite(I1,LOW);
+digitalWrite(I2,HIGH);
+}
+
+else if(t == 'L') {
+digitalWrite(rl,HIGH);
+digitalWrite(r2,LOW);
+digitalWrite(I1,LOW);
+digitalWrite(I2,HIGH);
+delay(100);
+t = 'S';
+
+else if(t == 'R') {
+digitalWrite(rl,LOW);
+digitalWrite(r2,HIGH);
+digitalWrite(I1,HIGH);
+digitalWrite(I2,LOW);
+delay(100);
+t = 'S';
+}
+}
