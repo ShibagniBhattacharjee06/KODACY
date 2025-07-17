@@ -1,0 +1,86 @@
+// Pin Definitions
+#define LEFT_SENSOR A0
+#define CENTER_SENSOR A1
+#define RIGHT_SENSOR A2
+
+#define LEFT_MOTOR_FORWARD 5
+#define LEFT_MOTOR_BACKWARD 6
+#define RIGHT_MOTOR_FORWARD 9
+#define RIGHT_MOTOR_BACKWARD 10
+
+// Threshold for line detection
+int threshold = 500;
+
+void setup() {
+  // Sensor pins
+  pinMode(LEFT_SENSOR, INPUT);
+  pinMode(CENTER_SENSOR, INPUT);
+  pinMode(RIGHT_SENSOR, INPUT);
+
+  // Motor pins
+  pinMode(LEFT_MOTOR_FORWARD, OUTPUT);
+  pinMode(LEFT_MOTOR_BACKWARD, OUTPUT);
+  pinMode(RIGHT_MOTOR_FORWARD, OUTPUT);
+  pinMode(RIGHT_MOTOR_BACKWARD, OUTPUT);
+
+  Serial.begin(9600);
+}
+
+void loop() {
+  int left = analogRead(LEFT_SENSOR);
+  int center = analogRead(CENTER_SENSOR);
+  int right = analogRead(RIGHT_SENSOR);
+
+  Serial.print("L: "); Serial.print(left);
+  Serial.print(" C: "); Serial.print(center);
+  Serial.print(" R: "); Serial.println(right);
+
+  bool l = left > threshold;
+  bool c = center > threshold;
+  bool r = right > threshold;
+
+  // Left-hand rule decision logic
+  if (l && !c && !r) {
+    turnLeft();
+  } else if (!l && c && !r) {
+    moveForward();
+  } else if (!l && !c && r) {
+    turnRight();
+  } else if (!l && !c && !r) {
+    stopMotors();  // dead end or intersection (optional backup)
+  } else {
+    // multiple sensors on black line (e.g., junction)
+    turnLeft(); // always prefer left in N=maze
+  }
+}
+
+// Movement Functions
+void moveForward() {
+  digitalWrite(LEFT_MOTOR_FORWARD, HIGH);
+  digitalWrite(LEFT_MOTOR_BACKWARD, LOW);
+  digitalWrite(RIGHT_MOTOR_FORWARD, HIGH);
+  digitalWrite(RIGHT_MOTOR_BACKWARD, LOW);
+}
+
+void turnLeft() {
+  digitalWrite(LEFT_MOTOR_FORWARD, LOW);
+  digitalWrite(LEFT_MOTOR_BACKWARD, HIGH);
+  digitalWrite(RIGHT_MOTOR_FORWARD, HIGH);
+  digitalWrite(RIGHT_MOTOR_BACKWARD, LOW);
+  delay(300);  // turn duration
+}
+
+void turnRight() {
+  digitalWrite(LEFT_MOTOR_FORWARD, HIGH);
+  digitalWrite(LEFT_MOTOR_BACKWARD, LOW);
+  digitalWrite(RIGHT_MOTOR_FORWARD, LOW);
+  digitalWrite(RIGHT_MOTOR_BACKWARD, HIGH);
+  delay(300);  // turn duration
+}
+
+void stopMotors() {
+  digitalWrite(LEFT_MOTOR_FORWARD, LOW);
+  digitalWrite(LEFT_MOTOR_BACKWARD, LOW);
+  digitalWrite(RIGHT_MOTOR_FORWARD, LOW);
+  digitalWrite(RIGHT_MOTOR_BACKWARD, LOW);
+}
