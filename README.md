@@ -94,7 +94,7 @@
 ## 📜 Certificate of Completion
 
 <p align="center">
-  <img src="https://github.com/ShibagniBhattacharjee06/KODACY/blob/main/certificate.png" alt="Internship Certificate" width="70%">
+  <img src="https://github.com/ShibagniBhattacharjee06/KODACY/blob/main/certificate.jpg" alt="Internship Certificate" width="70%">
 </p>
 
 ---
