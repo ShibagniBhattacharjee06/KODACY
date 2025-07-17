@@ -1,0 +1,23 @@
+const int rl=1, r2=2, l1=3, 12=4;
+const int LS = 6;
+const int RS = 5;
+int L,R;
+
+void setup()
+
+pinMode(LS, INPUT);
+pinMode(RS, INPUT);
+pinMode(rl, OUTPUT);
+pinMode(r2, OUTPUT);
+pinMode(I1, OUTPUT);
+pinMode(I2, OUTPUT);
+digitalWrite(r2,LOW);
+digitalWrite(I2,LOW);
+
+void loop()
+
+L = digitalRead(LS);
+R = digitalRead(RS);
+digitalWrite(rl, !R);
+digitalWrite(I1, !L);
+}
